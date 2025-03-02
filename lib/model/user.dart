@@ -25,12 +25,12 @@ class User {
       this.palFactor = json['palFactor'] as double,
       this.sleep = json['sleep'] as double;
 
-  bool isMale; // sex
-  int height; // height in cm
-  double weight; // weight in kg
-  DateTime birth; // date of birth
-  double palFactor; // pal factor
-  double sleep; // daily hours of sleep
+  bool isMale; // Sex
+  int height; // Height in cm
+  double weight; // Weight in kg
+  DateTime birth; // Date of birth
+  double palFactor; // Pal factor
+  double sleep; // Daily hours of sleep
 
   static final String dateFormat = 'dd.MM.yyyy';
 

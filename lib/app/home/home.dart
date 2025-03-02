@@ -1,4 +1,5 @@
 import 'package:calorie_calculator/app/home/dashboard/dashboard.dart';
+import 'package:calorie_calculator/app/home/profile/profile.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class _HomeState extends State<Home> {
 
   static final Map<IconData, Widget> pages = {
     Icons.space_dashboard: Dashboard(),
+    Icons.account_circle_rounded: Profile(),
   };
 
   Icon getIcon(IconData iconData) =>
