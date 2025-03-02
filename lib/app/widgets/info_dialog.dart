@@ -1,3 +1,4 @@
+import 'package:calorie_calculator/app/widgets/default_list.dart';
 import 'package:flutter/material.dart';
 
 class InfoDialog extends StatelessWidget {
@@ -28,11 +29,9 @@ class InfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: ListView.separated(
-        physics: RangeMaintainingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: info.length,
-        itemBuilder: (context, index) {
+      child: DefaultList(
+        length: info.length,
+        builder: (context, index) {
           MapEntry<String, String> entry = info.entries.elementAt(index);
 
           /// ListTile
@@ -62,10 +61,6 @@ class InfoDialog extends StatelessWidget {
               style: TextStyle(color: getColor(context, index)),
             ),
           );
-        },
-
-        separatorBuilder: (context, index) {
-          return Divider(height: 0, thickness: 0.5, indent: 15, endIndent: 15);
         },
       ),
     );
