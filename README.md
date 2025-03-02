@@ -1,16 +1,16 @@
 # calorie_calculator
 
-Simple calorie calculator app
+Simple app for calculating daily calorie intake.
 
-## Getting Started
+## Generate Icon and Splash Screen
 
-This project is a starting point for a Flutter application.
+1. `flutter pub run flutter_launcher_icons`
+2. `dart run flutter_native_splash:create`
 
-A few resources to get you started if this is your first Flutter project:
+## Install on device
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. `flutter install`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Build APK
+
+1. `flutter build apk --split-per-abi`
