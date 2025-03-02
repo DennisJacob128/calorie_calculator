@@ -52,9 +52,9 @@ class User {
     'Sex': isMale ? 'Male' : 'Female',
     'Height': '$height cm',
     'Weight': '${weight.roundedString()} kg',
-    'Date of birth': DateFormat(dateFormat).format(birth),
+    'Date of Birth': DateFormat(dateFormat).format(birth),
     'PAL-Factor': palFactor.roundedString(),
-    'Hours of sleep': '${sleep.roundedString()} hours',
+    'Hours of Sleep': '${sleep.roundedString()} hours',
   };
 
   String get jsonString => json.encode({
