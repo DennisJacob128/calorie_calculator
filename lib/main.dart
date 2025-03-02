@@ -11,6 +11,7 @@ void main() async {
 
   // Initialize provider
   AppProvider appProvider = AppProvider();
+  await appProvider.initialize();
 
   return runApp(
     MultiProvider(

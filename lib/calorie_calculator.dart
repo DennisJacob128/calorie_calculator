@@ -1,3 +1,5 @@
+import 'package:calorie_calculator/app/home/home.dart';
+import 'package:calorie_calculator/app/initialization/inifialization.dart';
 import 'package:calorie_calculator/provider/app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +28,7 @@ class CalorieCalculator extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: Scaffold(),
+      home: AppProvider.user == null ? Initialization() : Home(),
     );
   }
 
