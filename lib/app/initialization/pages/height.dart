@@ -1,6 +1,6 @@
 import 'package:calorie_calculator/app/initialization/components/initialization_page.dart';
 import 'package:calorie_calculator/app/initialization/components/initialization_text_field.dart';
-import 'package:calorie_calculator/app/initialization/initialization_user.dart';
+import 'package:calorie_calculator/app/initialization/model/initialization_user.dart';
 import 'package:flutter/material.dart';
 
 class Height extends StatelessWidget {

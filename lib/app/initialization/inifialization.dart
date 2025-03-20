@@ -1,4 +1,4 @@
-import 'package:calorie_calculator/app/initialization/initialization_user.dart';
+import 'package:calorie_calculator/app/initialization/model/initialization_user.dart';
 import 'package:calorie_calculator/app/initialization/pages/date_of_birth.dart';
 import 'package:calorie_calculator/app/initialization/pages/gender.dart';
 import 'package:calorie_calculator/app/initialization/pages/greetings.dart';

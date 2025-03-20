@@ -1,6 +1,6 @@
 import 'package:calorie_calculator/app/initialization/components/initialization_page.dart';
 import 'package:calorie_calculator/app/initialization/components/initialization_slider.dart';
-import 'package:calorie_calculator/app/initialization/initialization_user.dart';
+import 'package:calorie_calculator/app/initialization/model/initialization_user.dart';
 import 'package:calorie_calculator/app/widgets/pal_factor_dialog.dart';
 import 'package:flutter/material.dart';
 
