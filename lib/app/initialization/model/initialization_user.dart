@@ -1,3 +1,5 @@
+import 'package:calorie_calculator/app/initialization/model/diet_goal.dart';
+
 class InitializationUser {
   ///
 
@@ -7,4 +9,6 @@ class InitializationUser {
   DateTime? birth; // Date of birth
   double? palFactor; // Pal factor
   double? sleep; // Daily hours of sleep
+  DietGoal? dietGoal; // What the user wants to achieve with his diet
+  int? weeklyWeightDelta; // How much g weight the user wants to gain/loose
 }

@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 class InitializationButton extends StatelessWidget {
   ///
 
-  const InitializationButton({required this.title, required this.onPressed});
+  const InitializationButton({
+    required this.title,
+    required this.onPressed,
+    this.width,
+  });
 
   final String title;
   final Function() onPressed;
+  final double? width;
 
   /// --------------------------------------------------------------------------
   /// region build
@@ -15,7 +20,7 @@ class InitializationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 120,
+      width: width ?? 120,
       child: FilledButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

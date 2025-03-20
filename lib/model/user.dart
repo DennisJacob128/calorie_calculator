@@ -15,6 +15,7 @@ class User {
     required this.birth,
     required this.palFactor,
     required this.sleep,
+    required this.weeklyWeightDelta,
   });
 
   User.fromJson(Map<String, dynamic> json)
@@ -23,7 +24,8 @@ class User {
       this.weight = json['weight'] as double,
       this.birth = DateFormat(dateFormat).parse(json['birth'] as String),
       this.palFactor = json['palFactor'] as double,
-      this.sleep = json['sleep'] as double;
+      this.sleep = json['sleep'] as double,
+      this.weeklyWeightDelta = (json['weeklyWeightDelta'] ?? 0) as int;
 
   bool isMale; // Sex
   int height; // Height in cm
@@ -31,6 +33,7 @@ class User {
   DateTime birth; // Date of birth
   double palFactor; // Pal factor
   double sleep; // Daily hours of sleep
+  int weeklyWeightDelta; // How much g weight the user wants to gain/loose
 
   static final String dateFormat = 'dd.MM.yyyy';
 
@@ -44,6 +47,12 @@ class User {
   int get overallRate {
     double pal = (sleep * 0.95 + (24 - sleep) * palFactor) / 24;
     return (metabolicRate * pal).round();
+  }
+
+  /// Returns how many calories the user should eat more/less to achieve
+  /// weeklyWeightDelta
+  int get dailyCalorieDelta {
+    return (weeklyWeightDelta / 7 / 7000).round();
   }
 
   double get bmi => weight / pow(height / 100, 2);
@@ -64,5 +73,6 @@ class User {
     'birth': DateFormat(dateFormat).format(birth),
     'palFactor': palFactor,
     'sleep': sleep,
+    'weeklyWeightDelta': weeklyWeightDelta,
   });
 }

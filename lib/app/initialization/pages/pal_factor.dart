@@ -25,29 +25,8 @@ class PalFactor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InitializationPage(
-      headingWidget: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            Text(
-              'What\'s your PAL-Factor?',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-
-            /// PAL factor helper
-            IconButton(
-              onPressed:
-                  () => showDialog(
-                    context: context,
-                    builder: (context) => PalFactorDialog(),
-                  ),
-              icon: Icon(Icons.help_outline_rounded),
-            ),
-          ],
-        ),
-      ),
+      heading: 'What\'s your PAL-Factor?',
+      headingInfo: PalFactorDialog(),
       action: InitializationSlider(
         value: (user.palFactor ?? 1.2) * 10,
         min: 12,

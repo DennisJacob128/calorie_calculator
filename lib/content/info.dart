@@ -27,4 +27,7 @@ class Info {
     '34 – 36.5': 'Grade 2 obesity',
     '> 39': 'Grade 3 obesity',
   };
+
+  static final String weightDelta =
+      'Experts recommend a weight change of no more than 0.5kg per week.';
 }
