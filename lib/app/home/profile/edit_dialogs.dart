@@ -1,4 +1,5 @@
 import 'package:calorie_calculator/app/widgets/dialogs.dart';
+import 'package:calorie_calculator/model/diet_goal.dart';
 import 'package:calorie_calculator/model/user.dart';
 import 'package:calorie_calculator/provider/app_provider.dart';
 import 'package:calorie_calculator/util/extensions.dart';
@@ -87,17 +88,10 @@ class EditDialogs {
       context: c,
       title: 'What do you want to achieve with your diet?',
       buttons: {
-        'Loose Weight': () {
-          int delta = user.weeklyWeightDelta;
-          user.weeklyWeightDelta = (delta == 0) ? -500 : -delta.abs();
-          prov.setUser(user);
-        },
-        'Gain Weight': () {
-          int delta = user.weeklyWeightDelta;
-          user.weeklyWeightDelta = (delta == 0) ? 500 : delta.abs();
-          prov.setUser(user);
-        },
-        'Maintain Weight': () => prov.setUser(user..weeklyWeightDelta = 0),
+        'Loose Weight': () => prov.setUser(user..dietGoal = DietGoal.loose),
+        'Gain Weight': () => prov.setUser(user..dietGoal = DietGoal.gain),
+        'Maintain Weight':
+            () => prov.setUser(user..dietGoal = DietGoal.maintain),
       },
     );
   }
@@ -108,12 +102,10 @@ class EditDialogs {
     User user,
     AppProvider prov,
   ) {
-    String goalTerm = user.weeklyWeightDelta > 0 ? 'gain' : 'loose';
-
     Dialogs.textField(
       context: c,
-      title: 'How much weight do you want to $goalTerm per week?',
-      value: user.weeklyWeightDelta.abs().toString(),
+      title: 'How much weight do you want to ${user.dietGoal.name} per week?',
+      value: user.weeklyWeightDelta.toString(),
       unit: 'g',
       digitsOnly: true,
       onSubmit: (weeklyWeightDelta) {

@@ -1,4 +1,4 @@
-import 'package:calorie_calculator/app/initialization/model/diet_goal.dart';
+import 'package:calorie_calculator/model/diet_goal.dart';
 
 class InitializationUser {
   ///

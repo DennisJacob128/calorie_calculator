@@ -1,6 +1,5 @@
 import 'package:calorie_calculator/app/initialization/components/initialization_page.dart';
 import 'package:calorie_calculator/app/initialization/components/initialization_text_field.dart';
-import 'package:calorie_calculator/app/initialization/model/diet_goal.dart';
 import 'package:calorie_calculator/app/initialization/model/initialization_user.dart';
 import 'package:calorie_calculator/app/widgets/weight_delta_dialog.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +11,6 @@ class WeeklyWeightDelta extends StatelessWidget {
 
   final InitializationUser user;
   final Function(InitializationUser) updateUser;
-
-  String get goalTerm => user.dietGoal == DietGoal.loose ? 'loose' : 'gain';
 
   void submit(String weightDelta) {
     user.weeklyWeightDelta = int.parse(weightDelta);
@@ -27,7 +24,8 @@ class WeeklyWeightDelta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InitializationPage(
-      heading: 'How much weight do you want to $goalTerm per week?',
+      heading:
+          'How much weight do you want to ${user.dietGoal!.name} per week?',
       headingInfo: WeightDeltaDialog(),
       action: InitializationTextField(
         label: 'Weight',

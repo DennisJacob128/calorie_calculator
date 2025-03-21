@@ -1,6 +1,6 @@
-// import 'package:calorie_calculator/app/home/dashboard/bmi_dialog.dart';
 import 'package:calorie_calculator/app/home/dashboard/bmi_dialog.dart';
 import 'package:calorie_calculator/app/home/dashboard/data_field.dart';
+import 'package:calorie_calculator/model/diet_goal.dart';
 import 'package:calorie_calculator/model/user.dart';
 import 'package:calorie_calculator/provider/app_provider.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class Dashboard extends StatelessWidget {
             onTap: () => showBmi(context, user),
           ),
 
-          if (user.weeklyWeightDelta != 0)
+          if (user.dietGoal != DietGoal.maintain)
             DataField(title: 'Overall Rate', value: '${user.overallRate} kcal'),
 
           DataField(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:age_calculator/age_calculator.dart';
+import 'package:calorie_calculator/model/diet_goal.dart';
 import 'package:calorie_calculator/util/extensions.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +16,7 @@ class User {
     required this.birth,
     required this.palFactor,
     required this.sleep,
+    required this.dietGoal,
     required this.weeklyWeightDelta,
   });
 
@@ -25,6 +27,7 @@ class User {
       this.birth = DateFormat(dateFormat).parse(json['birth'] as String),
       this.palFactor = json['palFactor'] as double,
       this.sleep = json['sleep'] as double,
+      this.dietGoal = DietGoal.fromString((json['dietGoal'] ?? '') as String),
       this.weeklyWeightDelta = (json['weeklyWeightDelta'] ?? 0) as int;
 
   bool isMale; // Sex
@@ -33,6 +36,7 @@ class User {
   DateTime birth; // Date of birth
   double palFactor; // Pal factor
   double sleep; // Daily hours of sleep
+  DietGoal dietGoal; // What the user wants to achieve with the diet
   int weeklyWeightDelta; // How much g weight the user wants to gain/loose
 
   static final String dateFormat = 'dd.MM.yyyy';
@@ -51,7 +55,12 @@ class User {
 
   /// Returns how many calories the user should eat in total to achieve
   /// weeklyWeightDelta
-  int get dailyRate => overallRate + dailyCalorieDelta;
+  int get dailyRate {
+    if (dietGoal == DietGoal.maintain) return overallRate;
+    return dietGoal == DietGoal.loose
+        ? overallRate - dailyCalorieDelta
+        : overallRate + dailyCalorieDelta;
+  }
 
   /// Returns how many calories the user should eat more/less to achieve
   /// weeklyWeightDelta
@@ -61,8 +70,7 @@ class User {
 
   /// Returns the weight change goal as a string
   String get dietGoalString {
-    if (weeklyWeightDelta == 0) return 'Maintain';
-    return weeklyWeightDelta > 0 ? 'Gain' : 'Loose';
+    return dietGoal.name.capitalize;
   }
 
   double get bmi => weight / pow(height / 100, 2);
@@ -75,8 +83,8 @@ class User {
     'PAL-Factor': palFactor.roundedString(),
     'Hours of Sleep': '${sleep.roundedString()} hours',
     'Diet goal': '$dietGoalString weight',
-    if (weeklyWeightDelta != 0)
-      '$dietGoalString weight per week': '${weeklyWeightDelta.abs()}g',
+    if (dietGoal != DietGoal.maintain)
+      '$dietGoalString weight per week': '$weeklyWeightDelta g',
   };
 
   String get jsonString => json.encode({
@@ -86,6 +94,7 @@ class User {
     'birth': DateFormat(dateFormat).format(birth),
     'palFactor': palFactor,
     'sleep': sleep,
+    'dietGoal': dietGoal.name,
     'weeklyWeightDelta': weeklyWeightDelta,
   });
 }

@@ -23,6 +23,12 @@ class InitializationSlider extends StatelessWidget {
   final Function(double) onChange; // called onChanged
   final Function() submit; // called on button press
 
+  /// Saves value and submits
+  void onSubmit() {
+    onChange(value);
+    submit();
+  }
+
   /// --------------------------------------------------------------------------
   /// region build
   /// --------------------------------------------------------------------------
@@ -45,7 +51,7 @@ class InitializationSlider extends StatelessWidget {
         SizedBox(height: 50),
 
         /// Submit button
-        InitializationButton(title: 'Okay', onPressed: submit),
+        InitializationButton(title: 'Okay', onPressed: onSubmit),
       ],
     );
   }
