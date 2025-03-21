@@ -43,6 +43,7 @@ class EditDialogs {
       title: 'How much do you weigh?',
       value: user.weight.roundedString(),
       unit: 'kg',
+      doubleOnly: true,
       onSubmit: (weight) => prov.setUser(user..weight = double.parse(weight)),
     );
   }

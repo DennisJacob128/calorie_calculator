@@ -9,6 +9,7 @@ class InitializationTextField extends StatelessWidget {
     required this.label,
     this.unit,
     this.digitsOnly,
+    this.doubleOnly,
     required this.onSubmit,
   });
 
@@ -16,6 +17,7 @@ class InitializationTextField extends StatelessWidget {
   final String label;
   final String? unit;
   final bool? digitsOnly;
+  final bool? doubleOnly;
   final Function(String) onSubmit;
 
   /// --------------------------------------------------------------------------
@@ -42,6 +44,8 @@ class InitializationTextField extends StatelessWidget {
         keyboardType: TextInputType.number,
         inputFormatters: [
           if (digitsOnly == true) FilteringTextInputFormatter.digitsOnly,
+          if (doubleOnly == true)
+            FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
         ],
       ),
     );
