@@ -49,10 +49,14 @@ class User {
     return (metabolicRate * pal).round();
   }
 
+  /// Returns how many calories the user should eat in total to achieve
+  /// weeklyWeightDelta
+  int get dailyRate => overallRate + dailyCalorieDelta;
+
   /// Returns how many calories the user should eat more/less to achieve
   /// weeklyWeightDelta
   int get dailyCalorieDelta {
-    return (weeklyWeightDelta / 7 / 7000).round();
+    return (weeklyWeightDelta * 7.7 / 7).round();
   }
 
   /// Returns the weight change goal as a string
