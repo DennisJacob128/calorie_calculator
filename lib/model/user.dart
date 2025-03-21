@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:age_calculator/age_calculator.dart';
+import 'package:calorie_calculator/model/diet_goal.dart';
 import 'package:calorie_calculator/util/extensions.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +16,8 @@ class User {
     required this.birth,
     required this.palFactor,
     required this.sleep,
+    required this.dietGoal,
+    required this.weeklyWeightDelta,
   });
 
   User.fromJson(Map<String, dynamic> json)
@@ -23,7 +26,9 @@ class User {
       this.weight = json['weight'] as double,
       this.birth = DateFormat(dateFormat).parse(json['birth'] as String),
       this.palFactor = json['palFactor'] as double,
-      this.sleep = json['sleep'] as double;
+      this.sleep = json['sleep'] as double,
+      this.dietGoal = DietGoal.fromString((json['dietGoal'] ?? '') as String),
+      this.weeklyWeightDelta = (json['weeklyWeightDelta'] ?? 0) as int;
 
   bool isMale; // Sex
   int height; // Height in cm
@@ -31,6 +36,8 @@ class User {
   DateTime birth; // Date of birth
   double palFactor; // Pal factor
   double sleep; // Daily hours of sleep
+  DietGoal dietGoal; // What the user wants to achieve with the diet
+  int weeklyWeightDelta; // How much g weight the user wants to gain/loose
 
   static final String dateFormat = 'dd.MM.yyyy';
 
@@ -46,6 +53,26 @@ class User {
     return (metabolicRate * pal).round();
   }
 
+  /// Returns how many calories the user should eat in total to achieve
+  /// weeklyWeightDelta
+  int get dailyRate {
+    if (dietGoal == DietGoal.maintain) return overallRate;
+    return dietGoal == DietGoal.loose
+        ? overallRate - dailyCalorieDelta
+        : overallRate + dailyCalorieDelta;
+  }
+
+  /// Returns how many calories the user should eat more/less to achieve
+  /// weeklyWeightDelta
+  int get dailyCalorieDelta {
+    return (weeklyWeightDelta * 7.7 / 7).round();
+  }
+
+  /// Returns the weight change goal as a string
+  String get dietGoalString {
+    return dietGoal.name.capitalize;
+  }
+
   double get bmi => weight / pow(height / 100, 2);
 
   Map<String, String> get profileData => {
@@ -55,6 +82,9 @@ class User {
     'Date of Birth': DateFormat(dateFormat).format(birth),
     'PAL-Factor': palFactor.roundedString(),
     'Hours of Sleep': '${sleep.roundedString()} hours',
+    'Diet goal': '$dietGoalString weight',
+    if (dietGoal != DietGoal.maintain)
+      '$dietGoalString weight per week': '$weeklyWeightDelta g',
   };
 
   String get jsonString => json.encode({
@@ -64,5 +94,7 @@ class User {
     'birth': DateFormat(dateFormat).format(birth),
     'palFactor': palFactor,
     'sleep': sleep,
+    'dietGoal': dietGoal.name,
+    'weeklyWeightDelta': weeklyWeightDelta,
   });
 }

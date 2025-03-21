@@ -1,11 +1,14 @@
-import 'package:calorie_calculator/app/initialization/initialization_user.dart';
+import 'package:calorie_calculator/app/initialization/model/initialization_user.dart';
 import 'package:calorie_calculator/app/initialization/pages/date_of_birth.dart';
+import 'package:calorie_calculator/app/initialization/pages/diet_goal_page.dart';
 import 'package:calorie_calculator/app/initialization/pages/gender.dart';
 import 'package:calorie_calculator/app/initialization/pages/greetings.dart';
 import 'package:calorie_calculator/app/initialization/pages/height.dart';
 import 'package:calorie_calculator/app/initialization/pages/pal_factor.dart';
 import 'package:calorie_calculator/app/initialization/pages/sleep.dart';
+import 'package:calorie_calculator/app/initialization/pages/weekly_weight_delta.dart';
 import 'package:calorie_calculator/app/initialization/pages/weight.dart';
+import 'package:calorie_calculator/model/diet_goal.dart';
 import 'package:calorie_calculator/model/user.dart';
 import 'package:calorie_calculator/provider/app_provider.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +63,9 @@ class _InitializationState extends State<Initialization> {
       Weight(user, (user) => submitPage(user, 4)),
       DateOfBirth(user, (user) => submitPage(user, 5)),
       PalFactor(user, updateUser, () => goToPage(6)),
-      Sleep(user, updateUser, () => saveUser(prov)),
+      Sleep(user, updateUser, () => goToPage(7)),
+      DietGoalPage(user, (user) => submitPage(user, 8), () => saveUser(prov)),
+      WeeklyWeightDelta(user, (user) => saveUser(prov)),
     ];
   }
 
@@ -73,6 +78,8 @@ class _InitializationState extends State<Initialization> {
       birth: user.birth!,
       palFactor: user.palFactor!,
       sleep: user.sleep!,
+      dietGoal: user.dietGoal ?? DietGoal.maintain,
+      weeklyWeightDelta: user.weeklyWeightDelta ?? 0,
     );
     appProv.setUser(finalUser);
   }

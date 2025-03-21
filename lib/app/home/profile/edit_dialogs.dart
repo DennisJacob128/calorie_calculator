@@ -1,4 +1,5 @@
 import 'package:calorie_calculator/app/widgets/dialogs.dart';
+import 'package:calorie_calculator/model/diet_goal.dart';
 import 'package:calorie_calculator/model/user.dart';
 import 'package:calorie_calculator/provider/app_provider.dart';
 import 'package:calorie_calculator/util/extensions.dart';
@@ -78,6 +79,40 @@ class EditDialogs {
       divisions: 20,
       initialValue: user.sleep,
       onSubmit: (sleep) => prov.setUser(user..sleep = sleep),
+    );
+  }
+
+  /// Edits diet goal
+  static void editDietGoal(BuildContext c, User user, AppProvider prov) {
+    Dialogs.dialog(
+      context: c,
+      title: 'What do you want to achieve with your diet?',
+      buttons: {
+        'Loose Weight': () => prov.setUser(user..dietGoal = DietGoal.loose),
+        'Gain Weight': () => prov.setUser(user..dietGoal = DietGoal.gain),
+        'Maintain Weight':
+            () => prov.setUser(user..dietGoal = DietGoal.maintain),
+      },
+    );
+  }
+
+  /// Edits weekly weight delta
+  static void editWeeklyWeightDelta(
+    BuildContext c,
+    User user,
+    AppProvider prov,
+  ) {
+    Dialogs.textField(
+      context: c,
+      title: 'How much weight do you want to ${user.dietGoal.name} per week?',
+      value: user.weeklyWeightDelta.toString(),
+      unit: 'g',
+      digitsOnly: true,
+      onSubmit: (weeklyWeightDelta) {
+        if (weeklyWeightDelta != '' && weeklyWeightDelta != 0) {
+          prov.setUser(user..weeklyWeightDelta = int.parse(weeklyWeightDelta));
+        }
+      },
     );
   }
 }

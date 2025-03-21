@@ -1,6 +1,7 @@
 import 'package:calorie_calculator/app/home/profile/edit_dialogs.dart';
 import 'package:calorie_calculator/app/widgets/default_list.dart';
 import 'package:calorie_calculator/app/widgets/pal_factor_dialog.dart';
+import 'package:calorie_calculator/app/widgets/weight_delta_dialog.dart';
 import 'package:calorie_calculator/model/user.dart';
 import 'package:calorie_calculator/provider/app_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,16 @@ class Profile extends StatelessWidget {
     EditDialogs.editDateOfBirth,
     EditDialogs.editPalFactor,
     EditDialogs.editSleep,
+    EditDialogs.editDietGoal,
+    EditDialogs.editWeeklyWeightDelta,
   ];
 
   void showPal(BuildContext context) {
     showDialog(context: context, builder: (context) => PalFactorDialog());
+  }
+
+  void showWeightDelta(BuildContext context) {
+    showDialog(context: context, builder: (context) => WeightDeltaDialog());
   }
 
   void setValue(BuildContext c, User user, AppProvider prov, int index) {
@@ -54,6 +61,11 @@ class Profile extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.help_outline_rounded),
                     onPressed: () => showPal(context),
+                  )
+                else if (index == 7)
+                  IconButton(
+                    icon: Icon(Icons.help_outline_rounded),
+                    onPressed: () => showWeightDelta(context),
                   ),
               ],
             ),

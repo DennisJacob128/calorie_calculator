@@ -1,18 +1,19 @@
 import 'package:calorie_calculator/app/initialization/components/initialization_page.dart';
 import 'package:calorie_calculator/app/initialization/components/initialization_text_field.dart';
 import 'package:calorie_calculator/app/initialization/model/initialization_user.dart';
+import 'package:calorie_calculator/app/widgets/weight_delta_dialog.dart';
 import 'package:flutter/material.dart';
 
-class Height extends StatelessWidget {
+class WeeklyWeightDelta extends StatelessWidget {
   ///
 
-  Height(this.user, this.updateUser);
+  WeeklyWeightDelta(this.user, this.updateUser);
 
   final InitializationUser user;
   final Function(InitializationUser) updateUser;
 
-  void submit(String height) {
-    user.height = int.parse(height);
+  void submit(String weightDelta) {
+    user.weeklyWeightDelta = int.parse(weightDelta);
     updateUser(user);
   }
 
@@ -23,11 +24,12 @@ class Height extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InitializationPage(
-      heading: 'How tall are you?',
+      heading:
+          'How much weight do you want to ${user.dietGoal!.name} per week?',
+      headingInfo: WeightDeltaDialog(),
       action: InitializationTextField(
-        value: user.height?.toString(),
-        label: 'Height',
-        unit: 'cm',
+        label: 'Weight',
+        unit: 'g',
         digitsOnly: true,
         onSubmit: submit,
       ),
