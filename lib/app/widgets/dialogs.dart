@@ -39,6 +39,7 @@ class Dialogs {
     required final String title, // Title that is displayed at the top
     final String? value, // Default value text in textField
     final bool? digitsOnly, // If only digits are allowed
+    final bool? doubleOnly, // If only double values are allowed
     final String? unit, // Unit that is displayed on the right of textField
     required final Function(String) onSubmit, // Function on submit
   }) {
@@ -60,6 +61,8 @@ class Dialogs {
         },
         inputFormatters: [
           if (digitsOnly == true) FilteringTextInputFormatter.digitsOnly,
+          if (doubleOnly == true)
+            FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
         ],
         keyboardType: TextInputType.number,
       ),

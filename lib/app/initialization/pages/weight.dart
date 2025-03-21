@@ -28,6 +28,7 @@ class Weight extends StatelessWidget {
         value: user.weight?.toString(),
         label: 'Weight',
         unit: 'kg',
+        doubleOnly: true,
         onSubmit: submit,
       ),
     );
