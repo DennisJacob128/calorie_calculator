@@ -55,6 +55,12 @@ class User {
     return (weeklyWeightDelta / 7 / 7000).round();
   }
 
+  /// Returns the weight change goal as a string
+  String get dietGoalString {
+    if (weeklyWeightDelta == 0) return 'Maintain';
+    return weeklyWeightDelta > 0 ? 'Gain' : 'Loose';
+  }
+
   double get bmi => weight / pow(height / 100, 2);
 
   Map<String, String> get profileData => {
@@ -64,6 +70,9 @@ class User {
     'Date of Birth': DateFormat(dateFormat).format(birth),
     'PAL-Factor': palFactor.roundedString(),
     'Hours of Sleep': '${sleep.roundedString()} hours',
+    'Diet goal': '$dietGoalString weight',
+    if (weeklyWeightDelta != 0)
+      '$dietGoalString weight per week': '${weeklyWeightDelta.abs()}g',
   };
 
   String get jsonString => json.encode({

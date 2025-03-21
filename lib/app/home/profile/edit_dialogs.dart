@@ -80,4 +80,47 @@ class EditDialogs {
       onSubmit: (sleep) => prov.setUser(user..sleep = sleep),
     );
   }
+
+  /// Edits diet goal
+  static void editDietGoal(BuildContext c, User user, AppProvider prov) {
+    Dialogs.dialog(
+      context: c,
+      title: 'What do you want to achieve with your diet?',
+      buttons: {
+        'Loose Weight': () {
+          int delta = user.weeklyWeightDelta;
+          user.weeklyWeightDelta = (delta == 0) ? -500 : -delta.abs();
+          prov.setUser(user);
+        },
+        'Gain Weight': () {
+          int delta = user.weeklyWeightDelta;
+          user.weeklyWeightDelta = (delta == 0) ? 500 : delta.abs();
+          prov.setUser(user);
+        },
+        'Maintain Weight': () => prov.setUser(user..weeklyWeightDelta = 0),
+      },
+    );
+  }
+
+  /// Edits weekly weight delta
+  static void editWeeklyWeightDelta(
+    BuildContext c,
+    User user,
+    AppProvider prov,
+  ) {
+    String goalTerm = user.weeklyWeightDelta > 0 ? 'gain' : 'loose';
+
+    Dialogs.textField(
+      context: c,
+      title: 'How much weight do you want to $goalTerm per week?',
+      value: user.weeklyWeightDelta.abs().toString(),
+      unit: 'g',
+      digitsOnly: true,
+      onSubmit: (weeklyWeightDelta) {
+        if (weeklyWeightDelta != '' && weeklyWeightDelta != 0) {
+          prov.setUser(user..weeklyWeightDelta = int.parse(weeklyWeightDelta));
+        }
+      },
+    );
+  }
 }
