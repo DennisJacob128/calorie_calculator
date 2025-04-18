@@ -1,0 +1,86 @@
+name: Create release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Checks if pubspec version was updated
+  check_version:
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.check_new_version.outputs.new_version }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+         fetch-depth: 0
+
+      - name: Check for new version
+        id: check_new_version
+        run: |
+          pubspec_version=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+
+          if git fetch --tags && git tag --list | grep -qx "$pubspec_version"; then
+            echo "No new version detected."
+          else
+            echo "new_version=$pubspec_version" >> $GITHUB_OUTPUT
+            echo "New version detected: $pubspec_version"
+          fi
+
+  # Checks if changelog version equals pubspec version
+  # Also retrieves most recent changelog notes
+  check_changelog:
+    runs-on: ubuntu-latest
+    needs: check_version
+    if: needs.check_version.outputs.new_version != ''
+    outputs:
+      changelog_notes: ${{ steps.get_changelog_notes.outputs.changelog_notes }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Check if changelog updated
+        id: check_changelog_updated
+        run: |
+          changelog_version=$(grep -m 1 '^## ' CHANGELOG.md | sed 's/^## //')
+          pubspec_version=${{ needs.check_version.outputs.new_version }}
+          if [ "$changelog_version" == "$pubspec_version" ]; then
+            echo "Changelog version matches pubspec version"
+          else
+            echo "Changelog version does not match pubspec version."
+            exit 1
+          fi
+
+      - name: Get latest changelog
+        id: get_changelog_notes
+        run: |
+          changelog_notes=$(awk '/^## /{i++} i==1 && NR>1' CHANGELOG.md)
+          echo "changelog_notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$changelog_notes" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo $changelog_notes
+
+  # Creates release and tag from pubspec version and changelog notes
+  create_release:
+    runs-on: ubuntu-latest
+    needs:
+      - check_version
+      - check_changelog
+    if: needs.check_changelog.outputs.changelog_notes != ''
+
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.check_version.outputs.new_version }}
+          release_name: ${{ needs.check_version.outputs.new_version }}
+          body: ${{ needs.check_changelog.outputs.changelog_notes }}
+          draft: false
+          prerelease: false
