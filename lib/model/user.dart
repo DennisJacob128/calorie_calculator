@@ -56,16 +56,15 @@ class User {
   /// Returns how many calories the user should eat in total to achieve
   /// weeklyWeightDelta
   int get dailyRate {
-    if (dietGoal == DietGoal.maintain) return overallRate;
-    return dietGoal == DietGoal.loose
-        ? overallRate - dailyCalorieDelta
-        : overallRate + dailyCalorieDelta;
+    return overallRate + dailyCalorieDelta;
   }
 
   /// Returns how many calories the user should eat more/less to achieve
   /// weeklyWeightDelta
   int get dailyCalorieDelta {
-    return (weeklyWeightDelta * 7.7 / 7).round();
+    if (dietGoal == DietGoal.maintain) return 0;
+    int factor = dietGoal == DietGoal.loose ? -1 : 1;
+    return (weeklyWeightDelta * 7.7 / 7).round() * factor;
   }
 
   /// Returns the weight change goal as a string
