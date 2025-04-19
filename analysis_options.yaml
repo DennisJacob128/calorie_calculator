@@ -9,6 +9,7 @@ linter:
     sort_constructors_first: true
     lines_longer_than_80_chars: true
     sort_child_properties_last: true
+    unawaited_futures: true
     unnecessary_const: true
 
     # deactivate
