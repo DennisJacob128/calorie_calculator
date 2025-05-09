@@ -32,4 +32,4 @@ There is almost no input validation and error handling.
 
 ### Build APK
 
-1. `flutter build apk --split-per-abi`
+1. `flutter build apk`
