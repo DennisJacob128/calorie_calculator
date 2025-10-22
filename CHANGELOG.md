@@ -1,3 +1,7 @@
+## 1.2.3
+
+- Bumped dependencies
+
 ## 1.2.2
 
 - Bumped dependencies
